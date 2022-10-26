@@ -31,7 +31,7 @@
         </p>
         <p>{{ post.date }}</p>
 
-        <button @click="deletePost">delete</button>
+        <button @click="deletePost(innerWidth)">delete</button>
         <button v-if="editMode" @click="editPost(i)">Edit</button>
 
         <input type="text" v-if="!editMode" v-model="post.post">
@@ -94,7 +94,7 @@
 
   const editPost = (i) => {
     editMode.value = false
-    postItem.value = posts.value.find((post) => post.i === i)
+    postItem.value = posts.value.find((post) => post.i !== i)
 
     console.log(i)
   }
