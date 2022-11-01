@@ -12,31 +12,23 @@
         </div>
       </div>
 
-      <!-- <div>
-        <h3>By: John Doe</h3>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-          Delectus itaque dignissimos aperiam, 
-          dolorem accusantium sed minima quia pariatur, magnam, 
-          praesentium exercitationem numquam deleniti aliquid et excepturi aspernatur? Dolor, culpa laborum.
-        </p>
-        <button @click="deletePost">delete</button>
-        <button @click="editPost">edit</button>
-      </div> -->
-
-      <div v-for="(post, i) in posts" :key="i">
+      <div v-for="(post, id) in posts" :key="id">
         <h3>By: {{ post.name }}</h3>
         <p>
           {{ post.post }}
         </p>
         <p>{{ post.date }}</p>
-
-        <button @click="deletePost(i)">delete</button>
-        <button v-if="editMode" @click="editPost(i)">Edit</button>
-
-        <input type="text" v-if="!editMode" v-model="post.post">
-        <button v-if="!editMode" @click="savePost">Save</button>
-        <button v-if="!editMode" @click="cancleEditMode">Cancle</button>
+    
+        <button @click="deletePost(id)">delete</button>
+      
+        <div v-if="post === postItemToEdit">   
+          <!-- <input type="text" > -->
+          <textarea v-model="post.post" cols="40" rows="5"></textarea>
+          <button @click="savePost">Save</button>
+          <button @click="cancleEditMode">Cancle</button>
+        </div>
+      
+        <button v-else @click="editPost(post)">Edit</button> 
       </div>
     </div>
   </div>
@@ -85,30 +77,23 @@
     });
   });
 
-  const deletePost = (i) => {
-    posts.value.splice(i, 1)
+  const deletePost = (id) => {
+    posts.value.splice(id, 1)
   }
 
-  const editMode = ref(true)
-  const postItem = ref("")
+  const postItemToEdit = ref()
 
-  const editPost = (i) => {
-    editMode.value = false
-    postItem.value = posts.value.find((post) => post.i === i)
-
-    console.log(i)
+  const editPost = (post) => {
+    postItemToEdit.value = post
+    console.log(postItemToEdit)
   }
 
   const savePost = () => {
-    // const i = postItem.value.i
-    
-    editMode.value = true
-    postItem.value = ""
+    postItemToEdit.value = (false)
   }
 
   const cancleEditMode = () => {
-    editMode.value = true
-    postItem.value = ""
+    postItemToEdit.value = (false)
   }
 
 </script>
